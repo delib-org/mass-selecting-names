@@ -1,44 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './AddingNames.css';
 
 //control
 import DB from '../../../control/firebase';
-import {simpleName} from '../../../control/general';
+import { simpleName } from '../../../control/general';
 
-function AddingNames(props){
+let lastNumber = 0;
+function AddingNames(props) {
 
-    console.dir(props)
 
-    function addName(e){
+    useEffect(() => {
+        DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
+            .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
+            .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
+            .collection('options').orderBy('time', 'desc').limit(1).onSnapshot(namesDB => {
+                namesDB.forEach(nameDB => {
+                    console.log('snapshot')
+                    console.log(nameDB.data().number);
+                    lastNumber = nameDB.data().number || 0;
+                })
+            })
+    }, [])
+
+
+    function addName(e) {
         e.preventDefault();
         const name = e.target.elements.newname.value;
         const searchString = simpleName(name);
 
-        if(!props.userName){
+        if (!props.userName) {
             var userName = prompt('אנא ציינו את שמכם  כדי נידע מי הציע')
             props.setUserName(userName);
         }
         e.target.elements.newname.value = '';
 
-        
+
 
         console.log(name, searchString)
 
         DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
-        .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
-        .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
-        .collection('options').add({
-            userName: userName || props.userName,
-            name,
-            searchString,
-            time: new Date().getTime()
-        }).then(docDB=>{
-            console.log('docment added')
-        })
+            .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
+            .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
+            .collection('options').add({
+                userName: userName || props.userName,
+                name,
+                searchString,
+                time: new Date().getTime(),
+                number: lastNumber + 1
+            }).then(docDB => {
+                DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
+                    .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
+                    .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
+                    .collection('maxNumber').doc('maxNumber')
+                    .set({ maxNumber: lastNumber+1 })
+
+                alert('השם שרשמתם הוסף בהצלחה, ומחכה לדרוג על ידי תושבים אחרים')
+            })
     }
 
-    return(
-        <div className='page'> 
+    return (
+        <div className='page'>
             <div className='addMessage'>
                 אנא הוסיפו שמות חדשים לשכונות הקרוואנים
             </div>
