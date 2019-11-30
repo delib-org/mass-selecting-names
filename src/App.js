@@ -19,7 +19,7 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className='app'>
         <Nav />
         <Switch>
           <Route path="/add">

@@ -16,20 +16,22 @@ function Nav(props) {
 
             <Link to="/add">
                 <div className={(pathname === '/add') ? 'navButton navButtonSelected' : 'navButton'}>
-                    הוספת שמות
-                    <i class="material-icons">
+                    
+                    <i className="material-icons">
                         add_circle
                     </i>
+                    הוספת שמות
                 </div>
             </Link>
 
 
             <Link to="/vote">
                 <div className={(pathname === '/vote') ? 'navButton navButtonSelected' : 'navButton'}>
-                    בחירת שמות
+                   
                     <i className="material-icons">
                         check_circle
-                    </i>    
+                    </i> 
+                    בחירת שמות   
                 </div>
             </Link>
 

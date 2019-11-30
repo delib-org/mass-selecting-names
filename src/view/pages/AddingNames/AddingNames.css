@@ -1,0 +1,48 @@
+.addMessage{
+    background: wheat;
+    color: tomato;
+    text-align: center;
+    font-size: 2rem;
+    padding: 30px;
+    margin: 20px;
+}
+
+form{
+    width: 100%;
+    display: flex;
+    position: absolute;
+    bottom: 0px;
+
+}
+
+form>*{
+    font-size: 2rem;
+    padding: 20px;
+}
+
+input[type=text]{
+    width: 100%;
+}
+
+input[type=submit]{
+    -webkit-appearance: none;
+    width: 135px;
+    background: var(--accent-color);
+    border:none;
+    color: var(--text-primary-color);
+   
+}
+
+@media only screen and (max-width: 480px) {
+    form>*{
+        font-size: 1.2rem;
+    }
+    input[type=submit]{
+        -webkit-appearance: none;
+        width: 100px;
+        
+    }
+}
+
+
+   
