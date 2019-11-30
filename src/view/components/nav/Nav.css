@@ -1,0 +1,29 @@
+nav{
+    position: fixed;
+    top:0px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    
+    color:var(--text-primary-color);
+    text-align: center;
+    background: var(--default-primary-color);
+}
+.nav>a{
+    flex:1;
+}
+
+.navButton{
+    
+    padding: 20px;
+    font-size: 1.5rem;
+    background: var(--default-primary-color);
+}
+.navButtonSelected{
+    background: var(--dark-primary-color);
+}
+
+a{
+    text-decoration: none;
+    color:var(--text-primary-color);
+}
