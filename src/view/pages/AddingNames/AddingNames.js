@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './AddingNames.css';
 
 //control
@@ -6,20 +6,24 @@ import DB from '../../../control/firebase';
 import { simpleName } from '../../../control/general';
 
 let lastNumber = 0;
+let foundNames = new Set();
+let ref = DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
+    .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
+    .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
+
 function AddingNames(props) {
 
+    const [names, setNames] = useState([]);
 
     useEffect(() => {
-        DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
-            .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
-            .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
-            .collection('options').orderBy('time', 'desc').limit(1).onSnapshot(namesDB => {
-                namesDB.forEach(nameDB => {
-                    console.log('snapshot')
-                    console.log(nameDB.data().number);
-                    lastNumber = nameDB.data().number || 0;
-                })
+
+        ref.collection('options').orderBy('time', 'desc').limit(1).onSnapshot(namesDB => {
+            namesDB.forEach(nameDB => {
+                console.log('snapshot')
+                console.log(nameDB.data().number);
+                lastNumber = nameDB.data().number || 0;
             })
+        })
     }, [])
 
 
@@ -38,24 +42,44 @@ function AddingNames(props) {
 
         console.log(name, searchString)
 
-        DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
-            .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
-            .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
-            .collection('options').add({
-                userName: userName || props.userName,
-                name,
-                searchString,
-                time: new Date().getTime(),
-                number: lastNumber + 1
-            }).then(docDB => {
-                DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
-                    .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
-                    .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
-                    .collection('maxNumber').doc('maxNumber')
-                    .set({ maxNumber: lastNumber+1 })
+        ref.collection('options').add({
+            userName: userName || props.userName,
+            name,
+            searchString,
+            time: new Date().getTime(),
+            number: lastNumber + 1
+        }).then(docDB => {
+            ref.collection('maxNumber').doc('maxNumber')
+                .set({ maxNumber: lastNumber })
 
-                alert('השם שרשמתם הוסף בהצלחה, ומחכה לדרוג על ידי תושבים אחרים')
-            })
+            alert('השם שרשמתם הוסף בהצלחה, ומחכה לדרוג על ידי תושבים אחרים')
+        })
+    }
+
+    function searchName(e) {
+        let name = e.target.value;
+
+
+        if (name.length > 2) {
+            let shortName = simpleName(name);
+
+            let searchConstrain = searchTermStartEnd(shortName);
+            console.dir(searchConstrain)
+            ref.collection('options').where("searchString", "==", shortName)
+                .where("searchString", ">=", searchConstrain.start)
+                .where("searchString", "<=", searchConstrain.end)
+                .limit(5)
+                .get()
+                .then(namesDB => {
+
+                    namesDB.forEach(nameDB => {
+                        console.log(nameDB.data())
+                        foundNames.add(nameDB.data().name);
+                        let tempNames = [...foundNames];
+                        setNames(tempNames.slice(-4))
+                    })
+                })
+        }
     }
 
     return (
@@ -63,8 +87,18 @@ function AddingNames(props) {
             <div className='addMessage'>
                 אנא הוסיפו שמות חדשים לשכונות הקרוואנים
             </div>
+            <div className='foundNames'>
+                {names.length>0?<div>שמות דומים</div>:<div />}
+                {
+                    names.map((nameElm, index) => {
+                        return(<div className='foundName' key={index}>{nameElm}</div>)
+                    })
+                }
+               
+                
+            </div>
             <form onSubmit={addName}>
-                <input type='text' name='newname' required placeholder='הוסיפו שם חדש' />
+                <input type='text' name='newname' required placeholder='הוסיפו שם חדש' onKeyUp={searchName} />
                 <input type='submit' value='הוספה' />
             </form>
         </div>
@@ -72,3 +106,14 @@ function AddingNames(props) {
 }
 
 export default AddingNames;
+
+function searchTermStartEnd(name) {
+    let lastLetter = name.slice(-1);
+    lastLetter = nextChar(lastLetter);
+    let nameUp = name.slice(0, -1) + lastLetter;
+    return { start: name, end: nameUp };
+}
+
+function nextChar(c) {
+    return String.fromCharCode(c.charCodeAt(0) + 1);
+}
