@@ -7,10 +7,17 @@ import {simpleName} from '../../../control/general';
 
 function AddingNames(props){
 
+    console.dir(props)
+
     function addName(e){
         e.preventDefault();
         const name = e.target.elements.newname.value;
         const searchString = simpleName(name);
+
+        if(!props.userName){
+            var userName = prompt('אנא ציינו את שמכם  כדי נידע מי הציע')
+            props.setUserName(userName);
+        }
         e.target.elements.newname.value = '';
 
         
@@ -21,6 +28,7 @@ function AddingNames(props){
         .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
         .collection('subQuestions').doc('79awrIGoQqrJVmo7p0LO')
         .collection('options').add({
+            userName: userName || props.userName,
             name,
             searchString,
             time: new Date().getTime()
