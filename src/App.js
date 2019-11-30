@@ -17,13 +17,15 @@ import SelectNames from './view/pages/SelectNames/SelectNames';
 
 function App() {
 
+  const[userName, setUserName] = useState(false);
+
   return (
     <Router>
       <div className='app'>
         <Nav />
         <Switch>
           <Route path="/add">
-            <AddingNames />
+            <AddingNames  setUserName={setUserName} userName={userName}/>
           </Route>
           <Route path="/vote">
             <SelectNames />
