@@ -14,10 +14,24 @@ function Nav(props) {
 
             <a href='http://delib.org/he' className='navButton' target='_blank' rel="noopener noreferrer">Delib.org</a>
 
-            <Link to="/add"><div className={(pathname === '/add') ? 'navButton navButtonSelected' : 'navButton'}>הוספת שמות</div></Link>
+            <Link to="/add">
+                <div className={(pathname === '/add') ? 'navButton navButtonSelected' : 'navButton'}>
+                    הוספת שמות
+                    <i class="material-icons">
+                        add_circle
+                    </i>
+                </div>
+            </Link>
 
 
-            <Link to="/vote"><div className={(pathname === '/vote') ? 'navButton navButtonSelected' : 'navButton'}>בחירת שמות</div></Link>
+            <Link to="/vote">
+                <div className={(pathname === '/vote') ? 'navButton navButtonSelected' : 'navButton'}>
+                    בחירת שמות
+                    <i className="material-icons">
+                        check_circle
+                    </i>    
+                </div>
+            </Link>
 
         </nav>
     )

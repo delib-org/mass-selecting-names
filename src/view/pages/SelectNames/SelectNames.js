@@ -3,7 +3,7 @@ import './SelectNames.css';
 
 function SelectNames(props){
     return(
-        <div>
+        <div className='page'>
             Page 2
         </div>
     )

@@ -3,7 +3,7 @@ import './AddingNames.css';
 
 function AddingNames(props){
     return(
-        <div>
+        <div className='page'> 
             Page 1
         </div>
     )

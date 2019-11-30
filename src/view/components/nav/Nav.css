@@ -18,6 +18,18 @@ nav{
     padding: 20px;
     font-size: 1.5rem;
     background: var(--default-primary-color);
+    display: flex;
+    align-items: center;
+}
+
+.navButton>i{
+    margin-left: 10px;
+}
+
+@media only screen and (max-width: 480px) {
+    .navButton {
+        font-size: 1rem;
+    }
 }
 .navButtonSelected{
     background: var(--dark-primary-color);
