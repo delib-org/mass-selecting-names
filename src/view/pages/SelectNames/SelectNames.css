@@ -1,0 +1,22 @@
+.buttons{
+    background: teal;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px black;
+    width: fit-content;
+    color: white;
+}
+
+.namesSelect{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 90px);
+    gap:20px;
+    margin: 20px auto;
+    max-width: 500px;
+}
+.namesSelect>div{
+    box-shadow: 1px 1px 3px #0000004d;
+    border-radius: 5px;
+    background: wheat;
+}
