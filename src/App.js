@@ -24,6 +24,9 @@ function App() {
       <div className='app'>
         <Nav />
         <Switch>
+        <Route exact path="/">
+            <AddingNames  setUserName={setUserName} userName={userName}/>
+          </Route>
           <Route path="/add">
             <AddingNames  setUserName={setUserName} userName={userName}/>
           </Route>
