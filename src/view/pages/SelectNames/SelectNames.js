@@ -42,7 +42,7 @@ function SelectNames(props) {
                         if (namesArr.length === resultsNumber) {
                             let namesSeries ={ series: namesArr, selected: [], unSelected: [] };
                             console.dir(namesSeries)
-                            setNames([...names, namesSeries])
+                            setNames([namesSeries, ...names])
                         }
                     })
 
