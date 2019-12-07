@@ -1,0 +1,41 @@
+[debug] [2019-12-07T18:17:53.774Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T18:17:53.777Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js emulators:start
+[debug] [2019-12-07T18:17:53.778Z] CLI Version:   7.9.0
+[debug] [2019-12-07T18:17:53.778Z] Platform:      win32
+[debug] [2019-12-07T18:17:53.778Z] Node Version:  v10.15.0
+[debug] [2019-12-07T18:17:53.780Z] Time:          Sat Dec 07 2019 20:17:53 GMT+0200 (GMT+02:00)
+[debug] [2019-12-07T18:17:53.780Z] ----------------------------------------------------------------------
+[debug] [2019-12-07T18:17:53.780Z] 
+[info] i  emulators: Starting emulators: functions
+[info] +  functions: Using node@10 from host.
+[info] +  functions: Emulator started at http://localhost:5001
+[info] i  functions: Watching "C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions" for Cloud Functions...
+[debug] [2019-12-07T18:17:55.391Z] [worker-~diagnostic~-b5c71ff5-6ba6-4d3c-8dc7-ff145a17af54]: Assigning socketPath: \\?\pipe\C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions\6016
+[debug] [2019-12-07T18:17:55.392Z] [worker-~diagnostic~-b5c71ff5-6ba6-4d3c-8dc7-ff145a17af54]: BUSY
+[debug] [2019-12-07T18:17:56.837Z] [runtime-status] [6016] Functions runtime initialized. {"cwd":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions","node_version":"10.15.0"}
+[debug] [2019-12-07T18:17:56.841Z] [runtime-status] [6016] Disabled runtime features: undefined
+[debug] [2019-12-07T18:17:56.850Z] [runtime-status] [6016] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2019-12-07T18:17:56.855Z] [runtime-status] [6016] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-functions\\lib\\index.js"}
+[warn] !  functions: Your GOOGLE_APPLICATION_CREDENTIALS environment variable points to C:\tmp\mass-names-b4df607d13ec.json. Non-emulated services will access production using these credentials. Be careful!
+[debug] [2019-12-07T18:17:58.113Z] [runtime-status] [6016] Found google-gax at C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions\node_modules\google-gax\build\src\index.js
+[debug] [2019-12-07T18:17:58.114Z] [runtime-status] [6016] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"},{"name":"google-gax","status":"mocked"}]
+[debug] [2019-12-07T18:17:58.234Z] [runtime-status] [6016] Checked functions.config() {"config":{}}
+[debug] [2019-12-07T18:17:58.237Z] [runtime-status] [6016] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-functions\\lib\\index.js"}
+[debug] [2019-12-07T18:17:58.240Z] [runtime-status] [6016] Resolved module firebase-admin {"declared":true,"installed":true,"version":"8.8.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-admin\\lib\\index.js"}
+[debug] [2019-12-07T18:17:58.241Z] [runtime-status] [6016] Resolved module firebase-functions {"declared":true,"installed":true,"version":"3.3.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-functions\\lib\\index.js"}
+[debug] [2019-12-07T18:17:58.351Z] [runtime-status] [6016] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"8.8.0","resolution":"C:\\Users\\Lenovo\\Documents\\delib\\mass-selecting-names\\functions\\node_modules\\firebase-admin\\lib\\index.js"}}
+[debug] [2019-12-07T18:17:58.488Z] [runtime-status] [6016] initializeApp(DEFAULT) {"databaseURL":"https://mass-names.firebaseio.com","storageBucket":"mass-names.appspot.com","projectId":"mass-names"}
+[warn] !  TypeError: instance.INTERNAL.registerComponent is not a function
+    at registerDatabase (C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions\node_modules\@firebase\database\dist\index.node.cjs.js:15165:39)
+    at Object.<anonymous> (C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions\node_modules\@firebase\database\dist\index.node.cjs.js:15196:5)
+    at Module._compile (internal/modules/cjs/loader.js:689:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:700:10)
+    at Module.load (internal/modules/cjs/loader.js:599:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:538:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:530:3)
+    at Module.require (internal/modules/cjs/loader.js:637:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+    at FirebaseNamespace.get [as database] (C:\Users\Lenovo\Documents\delib\mass-selecting-names\functions\node_modules\firebase-admin\lib\firebase-namespace.js:282:38)
+[warn] !  We were unable to load your functions code. (see above)
+[debug] [2019-12-07T18:17:58.659Z] [worker-~diagnostic~-b5c71ff5-6ba6-4d3c-8dc7-ff145a17af54]: exited
+[debug] [2019-12-07T18:17:58.659Z] [worker-~diagnostic~-b5c71ff5-6ba6-4d3c-8dc7-ff145a17af54]: FINISHED
