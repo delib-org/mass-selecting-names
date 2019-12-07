@@ -40,13 +40,15 @@ function SelectNames(props) {
 				ref.collection('options').where('number', '==', rndNumber).limit(1).get().then((namesDB) => {
 					namesDB.forEach((nameDB) => {
 						let tempNameObj = nameDB.data();
-						tempNameObj.id = nameDB.id;
+                        tempNameObj.id = nameDB.id;
+                        tempNameObj.isNew = true;
 						namesArr.push(tempNameObj);
 
+                        //update to dom, after all calls from DB returend
 						if (namesArr.length === resultsNumber) {
-							let namesSeries = { series: namesArr, selected: [], unSelected: [] };
-
-							setNames([ namesSeries, ...names ]);
+                           
+                            setNames([namesArr, ...names]);
+                          
 						}
 					});
 				});
@@ -60,7 +62,7 @@ function SelectNames(props) {
 			<div className="questionTitle">איזה מהשמות עדיף?</div>
 			<div className="">
 				{names.map((series, index) => {
-					return <Series series={series} key={index} getRandomNames={getRandomNames} />;
+                    return <Series series={series} key={index} seriesIndex={index} getRandomNames={getRandomNames} names={names} setNames={setNames}/>;
 				})}
 			</div>
 		</div>

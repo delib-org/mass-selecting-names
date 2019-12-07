@@ -7,21 +7,34 @@ function Card(props) {
 
     const [selected, setSelected] = useState(false);
 
-    function setName() {
+    function selectName() {
 
-        setSelected(true)
-        console.log('seelcted')
+        // setSelected(true)
+        
         const selectedNames = { selected: undefined, unselected: undefined };
-      
+        
+        let names = [...props.names];
+        
         
         //change to who is slelected
         selectedNames.selected = props.name;
+        names[props.seriesIndex][0].isNew = false;
+         names[props.seriesIndex][1].isNew = false;
         
         if (props.number === 0) {           
-            selectedNames.unselected = props.names[1]
+            names[props.seriesIndex][0].selected = true
+            names[props.seriesIndex][1].selected = false
+
+            selectedNames.unselected = props.couple[1]
+            
         } else {           
-            selectedNames.unselected = props.names[0]
+             names[props.seriesIndex][1].selected = true
+            names[props.seriesIndex][0].selected = false
+            
+            selectedNames.unselected = props.couple[0]
         }
+
+        props.setNames(names);
 
        
 
@@ -41,12 +54,12 @@ function Card(props) {
 	}
 
 	return (
-		<div className="nameSelect" onClick={setName}>
+		<div className={props.name.isNew?"new nameSelect":'nameSelect'} onClick={selectName}>
 			<div>{props.name.name}</div>
 			<div />
 			<div />
 			<div>
-                {!selected ? <div /> : <i className="material-icons">check_circle</i>}
+                {!props.name.selected ? <div /> : <i className="material-icons">check_circle</i>}
 			</div>
 		</div>
 	);

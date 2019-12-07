@@ -37,3 +37,12 @@
     font-size: 1.4rem;
     color: #000000ba;
 }
+
+.new{
+    background:green;
+    animation: enter 
+}
+
+@keyframes{
+    
+}
