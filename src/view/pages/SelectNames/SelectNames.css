@@ -31,7 +31,7 @@
     cursor: pointer;
     display: grid;
     grid-template-rows: auto auto;
-    grid-template-columns: 200px auto;
+    /* grid-template-columns: 200px auto; */
     align-items: center;
     text-align: center;
     font-size: 1.4rem;
