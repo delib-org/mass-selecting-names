@@ -54,7 +54,9 @@ function Card(props) {
 	}
 
 	return (
-		<div className={props.name.isNew?"new nameSelect":'nameSelect'} onClick={selectName}>
+        <div className={props.name.isNew?"new nameSelect":'nameSelect'} onClick={(e)=>{
+            if(props.seriesIndex === 0){selectName()}
+            }}>
 			<div>{props.name.name}</div>
 			<div />
 			<div />

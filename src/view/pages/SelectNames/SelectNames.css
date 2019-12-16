@@ -28,7 +28,7 @@
     background: wheat;
     -webkit-user-select: none;
     user-select: none;
-    cursor: pointer;
+   
     display: grid;
     grid-template-rows: auto auto;
     /* grid-template-columns: 200px auto; */
@@ -36,11 +36,14 @@
     text-align: center;
     font-size: 1.4rem;
     color: #000000ba;
+    opacity: 0.5;
 }
 
 .new{
     background:green;
-    animation: enter 
+    animation: enter ;
+    opacity: 1;
+    cursor: pointer;
 }
 
 @keyframes{
