@@ -3,18 +3,21 @@ import './SelectNames.css';
 
 //components
 import Series from './Series';
+import Spinner from '../../components/nav/Spinner';
 
 //control
 import DB from '../../../control/firebase';
 
 function SelectNames(props) {
-    const [names, setNames] = useState([]);
-    
-    useEffect(() => {
-        getRandomNames();    
-    },[])
+	const [names, setNames] = useState([]);
+	const [isSpinner, setIsSpinner] = useState(false);
+
+	useEffect(() => {
+		getRandomNames();
+	}, [])
 
 	function getRandomNames(e) {
+		setIsSpinner(true)
 		let maxNumber;
 		let resultsNumber = 2;
 		let ref = DB.collection('groups')
@@ -33,22 +36,23 @@ function SelectNames(props) {
 				randomNames.add(Math.ceil(Math.random() * maxNumber));
 				i++;
 			}
-			let rndNumbers = [ ...randomNames ];
+			let rndNumbers = [...randomNames];
 			let namesArr = [];
 
 			rndNumbers.forEach((rndNumber) => {
 				ref.collection('options').where('number', '==', rndNumber).limit(1).get().then((namesDB) => {
 					namesDB.forEach((nameDB) => {
 						let tempNameObj = nameDB.data();
-                        tempNameObj.id = nameDB.id;
-                        tempNameObj.isNew = true;
+						tempNameObj.id = nameDB.id;
+						tempNameObj.isNew = true;
 						namesArr.push(tempNameObj);
 
-                        //update to dom, after all calls from DB returend
+
+						//update to dom, after all calls from DB returend
 						if (namesArr.length === resultsNumber) {
-                           
-                            setNames([namesArr, ...names]);
-                          
+							setIsSpinner(false)
+							setNames([namesArr, ...names]);
+
 						}
 					});
 				});
@@ -58,13 +62,16 @@ function SelectNames(props) {
 
 	return (
 		<div className="page">
-			
+
 			<div className="questionTitle">איזה מהשמות עדיף?</div>
-			<div className="">
-				{names.map((series, index) => {
-                    return <Series series={series} key={index} seriesIndex={index} getRandomNames={getRandomNames} names={names} setNames={setNames}/>;
-				})}
-			</div>
+			
+				<div className="">
+					{isSpinner ?<Spinner />:<div />}
+					{names.map((series, index) => {
+						return <Series series={series} key={index} seriesIndex={index} getRandomNames={getRandomNames} names={names} setNames={setNames} />;
+					})}
+				</div>
+			
 		</div>
 	);
 }

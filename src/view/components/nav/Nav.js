@@ -15,7 +15,7 @@ function Nav(props) {
             <a href='http://delib.org/he' className='navButton' target='_blank' rel="noopener noreferrer">Delib.org</a>
 
             <Link to="/add">
-                <div className={(pathname === '/add') ? 'navButton navButtonSelected' : 'navButton'}>
+                <div className={(pathname === '/add' || pathname === '/') ? 'navButton navButtonSelected' : 'navButton'}>
                     
                     <i className="material-icons">
                         add_circle

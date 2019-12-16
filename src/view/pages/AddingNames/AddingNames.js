@@ -19,11 +19,11 @@ function AddingNames(props) {
 
         ref.collection('options').orderBy('time', 'desc').limit(1).onSnapshot(namesDB => {
             namesDB.forEach(nameDB => {
-                console.log('snapshot')
-                console.log(nameDB.data().number);
+            
+                
                 lastNumber = nameDB.data().number || 0;
             })
-        })
+        },doc=>{console.log(doc)})
     }, [])
 
 
@@ -36,6 +36,13 @@ function AddingNames(props) {
             var userName = prompt('אנא ציינו את שמכם  כדי נידע מי הציע')
             props.setUserName(userName);
         }
+
+        //check if the name allready in database
+        if(names.includes(name)){
+            console.log('all ready here!!!!!!!');
+            return;
+        }
+
         e.target.elements.newname.value = '';
 
 
@@ -68,7 +75,7 @@ function AddingNames(props) {
             ref.collection('options').where("searchString", "==", shortName)
                 .where("searchString", ">=", searchConstrain.start)
                 .where("searchString", "<=", searchConstrain.end)
-                .limit(5)
+                .limit(6)
                 .get()
                 .then(namesDB => {
 
@@ -76,7 +83,8 @@ function AddingNames(props) {
                         console.log(nameDB.data())
                         foundNames.add(nameDB.data().name);
                         let tempNames = [...foundNames];
-                        setNames(tempNames.slice(-4))
+                        console.dir(tempNames)
+                        setNames(tempNames.slice(-5))
                     })
                 })
         }
@@ -87,20 +95,21 @@ function AddingNames(props) {
             <div className='addMessage'>
                 אנא הוסיפו שמות חדשים לשכונות הקרוואנים
             </div>
-            <div className='foundNames'>
-                {names.length>0?<div>שמות דומים</div>:<div />}
-                {
-                    names.map((nameElm, index) => {
-                        return(<div className='foundName' key={index}>{nameElm}</div>)
-                    })
-                }
-               
-                
+            <div className='bottomBox'>
+                <div className='foundNames'>
+                    {names.length > 0 ? <div>שמות דומים</div> : <div />}
+                    {
+                        names.map((nameElm, index) => {
+                            return (<div className='foundName' key={index}>{nameElm}</div>)
+                        })
+                    }
+                </div>
+                <form autoComplete="off" onSubmit={addName}>
+
+                    <input type='text' name='newname' required placeholder='הוסיפו שם חדש' onKeyUp={searchName} />
+                    <input type='submit' value='הוספה' />
+                </form>
             </div>
-            <form onSubmit={addName}>
-                <input type='text' name='newname' required placeholder='הוסיפו שם חדש' onKeyUp={searchName} />
-                <input type='submit' value='הוספה' />
-            </form>
         </div>
     )
 }

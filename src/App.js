@@ -15,8 +15,8 @@ import Nav from './view/components/nav/Nav';
 import AddingNames from './view/pages/AddingNames/AddingNames';
 import SelectNames from './view/pages/SelectNames/SelectNames';
 
-function App() {
-
+function App(props) {
+  console.dir(props)
   const[userName, setUserName] = useState(false);
 
   return (
