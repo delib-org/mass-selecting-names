@@ -8,6 +8,7 @@ nav{
     color:var(--text-primary-color);
     text-align: center;
     background: var(--default-primary-color);
+    z-index: 100;
 }
 .nav>a{
     flex:1;
