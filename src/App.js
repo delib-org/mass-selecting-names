@@ -24,7 +24,7 @@ function App(props) {
       <div className='app'>
         <Nav />
         <Switch>
-        <Route exact path="/">
+         <Route exact path="/">
             <AddingNames  setUserName={setUserName} userName={userName}/>
           </Route>
           <Route path="/add">
