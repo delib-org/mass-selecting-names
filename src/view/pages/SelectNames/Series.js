@@ -6,9 +6,11 @@ import Card from './Card';
 
 
 function Series(props) {
-    console.dir(props)
+   
+    
+
     return (
-        <div className='namesSelectSeries'>
+        <div className={props.series[0].isNew ? 'namesSelectSeries newSeries' : 'namesSelectSeries'}>
 
             {
                 props.series.map((name, index) => {
@@ -21,7 +23,9 @@ function Series(props) {
                             name={name} names={props.names}
                             setNames={props.setNames}
                             couple={props.series}
-                            getRandomNames={props.getRandomNames} />
+                            getRandomNames={props.getRandomNames}
+                           
+                        />
                     )
                 })
             }

@@ -1,44 +1,36 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './SelectNames.css';
 import DB from '../../../control/firebase';
 
 
-function Card(props) {
+function Card(props) {    
 
-    const [selected, setSelected] = useState(false);
+    console.dir(props)
 
     function selectName(name, number) {
 
         // setSelected(true)
-        console.log(name, number)
-        
-        const selectedNames = { selected: undefined, unselected: undefined };
-        
+        props.names[props.seriesIndex][number].selected = true;
+
         let names = props.names;
-        
-        console.log(names)
-        
-        //change to who is slelected
-        selectedNames.selected = props.name;
-        names[props.seriesIndex][0].isNew = false;
-         names[props.seriesIndex][1].isNew = false;
-        
-        if (props.number === 0) {           
-            names[props.seriesIndex][0].selected = true
-            names[props.seriesIndex][1].selected = false
 
-            selectedNames.unselected = props.couple[1]
-            
-        } else {           
-             names[props.seriesIndex][1].selected = true
-            names[props.seriesIndex][0].selected = false
-            
-            selectedNames.unselected = props.couple[0]
-        }
+        //remove new
+        props.names[props.seriesIndex].map((element, index) => {
+           return props.names[props.seriesIndex][index].isNew = false;
+        })
+        
+        //set unselected
+        let unselected = []
+        names[props.seriesIndex].map((nameObj, index) => {
+            if (index !== number) {
+                unselected.push(nameObj)
+            }
+            return true;
+        })
+        
+        const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
 
-        props.setNames(names);
-
-       
+        props.setNames(names);       
 
         DB.collection('groups')
             .doc('0nWDzSq0oFoqBXTQJJ6w')

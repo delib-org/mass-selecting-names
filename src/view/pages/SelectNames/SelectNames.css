@@ -1,4 +1,4 @@
-.buttons{
+.buttons {
     background: teal;
     padding: 20px;
     border-radius: 5px;
@@ -6,29 +6,30 @@
     width: fit-content;
     color: white;
 }
-.questionTitle{
-   
+
+.questionTitle {
     margin: auto;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--dark-primary-color);
 }
-.namesSelectSeries{
+
+.namesSelectSeries {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 90px);
-    gap:20px;
-    margin: 20px auto;
+    gap: 20px;
+    margin: 50px auto;
     max-width: 500px;
 }
-.nameSelect{
+
+.nameSelect {
     box-shadow: 1px 1px 3px #0000004d;
     border-radius: 5px;
     background: wheat;
     -webkit-user-select: none;
     user-select: none;
-   
     display: grid;
     grid-template-rows: auto auto;
     /* grid-template-columns: 200px auto; */
@@ -37,25 +38,26 @@
     font-size: 1.4rem;
     color: #000000ba;
     opacity: 0.5;
-    
 }
 
-.new{
-    background:green;
-    animation: enter ;
-    animation-duration:300ms;
+.new {
+    background: rgb(246, 212, 147);
     opacity: 1;
     cursor: pointer;
     position: relative;
 }
 
-@keyframes enter{
-    from{
-        top:-50px;
-        transform: scaleY(0);
+.newSeries {
+    animation: enter;
+    animation-duration: 300ms;
+}
+
+@keyframes enter {
+    from {
+        transform: translateY(-50%) scaleY(0);
     }
-    to{
-        top:0px;
-        transform: scaleY(1);
+    to {
+        top: 0px;
+        transform: translateY(0%) scaleY(1);
     }
 }

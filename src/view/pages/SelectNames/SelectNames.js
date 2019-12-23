@@ -9,14 +9,12 @@ import Spinner from '../../components/nav/Spinner';
 import DB from '../../../control/firebase';
 
 function SelectNames(props) {
-	const [names, setNames] = useState([]);
-	const [isSpinner, setIsSpinner] = useState(false);
-
-
+	const [ names, setNames ] = useState([]);
+	const [ isSpinner, setIsSpinner ] = useState(false);
+	const [ isSeriesNew, setIsSeriesNew ] = useState(true);
 
 	function getRandomNames() {
-		console.log('get random names')
-		setIsSpinner(true)
+		setIsSpinner(true);
 		let maxNumber;
 		let resultsNumber = 6;
 		let ref = DB.collection('groups')
@@ -35,7 +33,7 @@ function SelectNames(props) {
 				randomNames.add(Math.ceil(Math.random() * maxNumber));
 				i++;
 			}
-			let rndNumbers = [...randomNames];
+			let rndNumbers = [ ...randomNames ];
 			let namesArr = [];
 
 			rndNumbers.forEach((rndNumber) => {
@@ -45,13 +43,13 @@ function SelectNames(props) {
 						tempNameObj.id = nameDB.id;
 						tempNameObj.isNew = true;
 						namesArr.push(tempNameObj);
-						console.dir(namesArr)
-
+						
 						//update to dom, after all calls from DB returend
 						if (namesArr.length === resultsNumber) {
-							setIsSpinner(false)
-							setNames([namesArr, ...names]);
-							console.log(names);
+							setIsSpinner(false);
+							setNames([ namesArr, ...names ]);
+						
+							setIsSeriesNew(true)
 						}
 					});
 				});
@@ -59,32 +57,33 @@ function SelectNames(props) {
 		});
 	}
 
-	useEffect(() => {
-		console.log('get random names useEffect')
+	useEffect(() => {		
 		getRandomNames();
-	}, [])
+	}, []);
 
 	return (
 		<div className="page">
-
 			<div className="questionTitle">מתוך השמות הללו, איזה שם תעדיפו?</div>
 
 			<div className="">
 				{isSpinner ? <Spinner /> : <div />}
 				{names.map((series, index) => {
 					return (
-						<div className='namesSelect'>
-							<Series 
-							series={series}
-							key={index}
-							seriesIndex={index}
-							getRandomNames={getRandomNames}
-							names={names} setNames={setNames} />
+						<div className="namesSelect" key={index}>
+							<Series
+								series={series}
+								key={index}
+								seriesIndex={index}
+								getRandomNames={getRandomNames}
+								names={names}
+								setNames={setNames}
+								isSeriesNew={isSeriesNew}
+								setIsSeriesNew={setIsSeriesNew}
+							/>
 						</div>
-					)
+					);
 				})}
 			</div>
-
 		</div>
 	);
 }
