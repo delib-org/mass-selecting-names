@@ -24,7 +24,7 @@ exports.addSelected = functions.firestore
 			.collection('options');
 
 		const optionSelectedRef = optionRef.doc(selectedId);
-		const optionUnselectedRef = optionRef.doc(unSelectedId);
+		
 
 		//selected option
 		return db.runTransaction((transaction) => {

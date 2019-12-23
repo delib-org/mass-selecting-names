@@ -7,7 +7,7 @@ function Card(props) {
 
     const [selected, setSelected] = useState(false);
 
-    function selectName() {
+    function selectName(name, number) {
 
         // setSelected(true)
         
@@ -55,11 +55,10 @@ function Card(props) {
 
 	return (
         <div className={props.name.isNew?"new nameSelect":'nameSelect'} onClick={(e)=>{
-            if(props.seriesIndex === 0){selectName()}
+            if(props.seriesIndex === 0){selectName(props.name.id, props.number)}
             }}>
 			<div>{props.name.name}</div>
-			<div />
-			<div />
+			
 			<div>
                 {!props.name.selected ? <div /> : <i className="material-icons">check_circle</i>}
 			</div>

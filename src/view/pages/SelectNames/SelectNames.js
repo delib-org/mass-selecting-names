@@ -12,14 +12,13 @@ function SelectNames(props) {
 	const [names, setNames] = useState([]);
 	const [isSpinner, setIsSpinner] = useState(false);
 
-	useEffect(() => {
-		getRandomNames();
-	}, [])
 
-	function getRandomNames(e) {
+
+	function getRandomNames() {
+		console.log('get random names')
 		setIsSpinner(true)
 		let maxNumber;
-		let resultsNumber = 2;
+		let resultsNumber = 6;
 		let ref = DB.collection('groups')
 			.doc('0nWDzSq0oFoqBXTQJJ6w')
 			.collection('questions')
@@ -46,13 +45,13 @@ function SelectNames(props) {
 						tempNameObj.id = nameDB.id;
 						tempNameObj.isNew = true;
 						namesArr.push(tempNameObj);
-
+						console.dir(namesArr)
 
 						//update to dom, after all calls from DB returend
 						if (namesArr.length === resultsNumber) {
 							setIsSpinner(false)
 							setNames([namesArr, ...names]);
-
+							console.log(names);
 						}
 					});
 				});
@@ -60,18 +59,32 @@ function SelectNames(props) {
 		});
 	}
 
+	useEffect(() => {
+		console.log('get random names useEffect')
+		getRandomNames();
+	}, [])
+
 	return (
 		<div className="page">
 
-			<div className="questionTitle">איזה מהשמות עדיף?</div>
-			
-				<div className="">
-					{isSpinner ?<Spinner />:<div />}
-					{names.map((series, index) => {
-						return <Series series={series} key={index} seriesIndex={index} getRandomNames={getRandomNames} names={names} setNames={setNames} />;
-					})}
-				</div>
-			
+			<div className="questionTitle">מתוך השמות הללו, איזה שם תעדיפו?</div>
+
+			<div className="">
+				{isSpinner ? <Spinner /> : <div />}
+				{names.map((series, index) => {
+					return (
+						<div className='namesSelect'>
+							<Series 
+							series={series}
+							key={index}
+							seriesIndex={index}
+							getRandomNames={getRandomNames}
+							names={names} setNames={setNames} />
+						</div>
+					)
+				})}
+			</div>
+
 		</div>
 	);
 }
