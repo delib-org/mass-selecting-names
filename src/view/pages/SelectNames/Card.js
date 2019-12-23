@@ -10,11 +10,13 @@ function Card(props) {
     function selectName(name, number) {
 
         // setSelected(true)
+        console.log(name, number)
         
         const selectedNames = { selected: undefined, unselected: undefined };
         
-        let names = [...props.names];
+        let names = props.names;
         
+        console.log(names)
         
         //change to who is slelected
         selectedNames.selected = props.name;
