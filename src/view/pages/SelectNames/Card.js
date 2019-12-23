@@ -3,9 +3,7 @@ import './SelectNames.css';
 import DB from '../../../control/firebase';
 
 
-function Card(props) {
-
-    
+function Card(props) {    
 
     const [selected, setSelected] = useState(false);
 
@@ -14,6 +12,13 @@ function Card(props) {
         // setSelected(true)
         console.log(name, number)
         let names = props.names;
+
+        //remove new
+        props.names[props.seriesIndex].map((element, index) => {
+            props.names[props.seriesIndex][index].isNew = false;
+        })
+        
+
 
         //set unselected
         let unselected = []
