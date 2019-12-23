@@ -1,31 +1,31 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './SelectNames.css';
 import DB from '../../../control/firebase';
 
 
 function Card(props) {    
 
-    const [selected, setSelected] = useState(false);
+    console.dir(props)
 
     function selectName(name, number) {
 
         // setSelected(true)
-        console.log(name, number)
+        props.names[props.seriesIndex][number].selected = true;
+
         let names = props.names;
 
         //remove new
         props.names[props.seriesIndex].map((element, index) => {
-            props.names[props.seriesIndex][index].isNew = false;
+           return props.names[props.seriesIndex][index].isNew = false;
         })
         
-
-
         //set unselected
         let unselected = []
         names[props.seriesIndex].map((nameObj, index) => {
             if (index !== number) {
                 unselected.push(nameObj)
             }
+            return true;
         })
         
         const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
