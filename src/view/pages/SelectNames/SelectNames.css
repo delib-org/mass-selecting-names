@@ -41,25 +41,23 @@
 }
 
 .new {
-    background: green;
-    animation: enter;
-    animation-duration: 300ms;
+    background: rgb(246, 212, 147);
     opacity: 1;
     cursor: pointer;
     position: relative;
 }
 
+.newSeries {
+    animation: enter;
+    animation-duration: 300ms;
+}
+
 @keyframes enter {
     from {
-        top: -50px;
-        transform: scaleY(0);
+        transform: translateY(-50%) scaleY(0);
     }
     to {
         top: 0px;
-        transform: scaleY(1);
+        transform: translateY(0%) scaleY(1);
     }
-}
-
-.newSeries{
-    transform: rotate(20deg);
 }

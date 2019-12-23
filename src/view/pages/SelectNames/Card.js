@@ -29,32 +29,8 @@ function Card(props) {
         })
         
         const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
-        
-        
-        
-        console.log(selectedNames)
-        
-        //change to who is slelected
-        // selectedNames.selected = props.name;
-        // names[props.seriesIndex][0].isNew = false;
-        //  names[props.seriesIndex][1].isNew = false;
-        
-        // if (props.number === 0) {           
-        //     names[props.seriesIndex][0].selected = true
-        //     names[props.seriesIndex][1].selected = false
 
-        //     selectedNames.unselected = props.couple[1]
-            
-        // } else {           
-        //      names[props.seriesIndex][1].selected = true
-        //     names[props.seriesIndex][0].selected = false
-            
-        //     selectedNames.unselected = props.couple[0]
-        // }
-
-        props.setNames(names);
-
-       
+        props.setNames(names);       
 
         DB.collection('groups')
             .doc('0nWDzSq0oFoqBXTQJJ6w')
