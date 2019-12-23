@@ -11,8 +11,7 @@ exports.addSelected = functions.firestore
 	.onCreate((snap, context) => {
 		// Grab the current value of what was written to the Realtime Database.
 
-		let selectedId = snap.data().selected.id;
-		let unSelectedId = snap.data().unselected.id;
+		let selected = snap.data().selected;
 
 		const optionRef = db
 			.collection('groups')
@@ -23,24 +22,25 @@ exports.addSelected = functions.firestore
 			.doc(context.params.subQuestionId)
 			.collection('options');
 
-		const optionSelectedRef = optionRef.doc(selectedId);
-		
+		selected.forEach((element) => {
+			const optionSelectedRef = optionRef.doc(element.id);
 
-		//selected option
-		return db.runTransaction((transaction) => {
-			return transaction.get(optionSelectedRef).then((optionDoc) => {
-				let totalSelectionsVotes = optionDoc.data().totalSelectionsVotes || 1;
-				let totalSelections = optionDoc.data().totalSelections || 0;
-				totalSelectionsVotes++;
-				totalSelections++;
-				let averageSelections = totalSelections / totalSelectionsVotes;
+			//selected option
+			return db.runTransaction((transaction) => {
+				return transaction.get(optionSelectedRef).then((optionDoc) => {
+					let totalSelectionsVotes = optionDoc.data().totalSelectionsVotes || 1;
+					let totalSelections = optionDoc.data().totalSelections || 0;
+					totalSelectionsVotes++;
+					totalSelections++;
+					let averageSelections = totalSelections / totalSelectionsVotes;
 
-				// setUnselected();
+					// setUnselected();
 
-				return transaction.update(optionSelectedRef, {
-					totalSelectionsVotes,
-					totalSelections,
-					averageSelections
+					return transaction.update(optionSelectedRef, {
+						totalSelectionsVotes,
+						totalSelections,
+						averageSelections
+					});
 				});
 			});
 		});
@@ -51,7 +51,7 @@ exports.addUnSelected = functions.firestore
 	.onCreate((snap, context) => {
 		// Grab the current value of what was written to the Realtime Database.
 
-		let unSelectedId = snap.data().unselected.id;
+		let unSelected = snap.data().unselected;
 
 		const optionRef = db
 			.collection('groups')
@@ -62,23 +62,24 @@ exports.addUnSelected = functions.firestore
 			.doc(context.params.subQuestionId)
 			.collection('options');
 
-		const optionUnselectedRef = optionRef.doc(unSelectedId);
+		unSelected.forEach((element) => {
+			const optionUnselectedRef = optionRef.doc(element.id);
+			//selected option
+			return db.runTransaction((transaction) => {
+				return transaction.get(optionUnselectedRef).then((optionDoc) => {
+					let totalSelectionsVotes = optionDoc.data().totalSelectionsVotes || 1;
+					let totalSelections = optionDoc.data().totalSelections || 0;
+					totalSelectionsVotes++;
 
-		//selected option
-		return db.runTransaction((transaction) => {
-			return transaction.get(optionUnselectedRef).then((optionDoc) => {
-				let totalSelectionsVotes = optionDoc.data().totalSelectionsVotes || 1;
-				let totalSelections = optionDoc.data().totalSelections || 0;
-				totalSelectionsVotes++;
+					let averageSelections = totalSelections / totalSelectionsVotes;
 
-				let averageSelections = totalSelections / totalSelectionsVotes;
+					// setUnselected();
 
-				// setUnselected();
-
-				return transaction.update(optionUnselectedRef, {
-					totalSelectionsVotes,
-					totalSelections,
-					averageSelections
+					return transaction.update(optionUnselectedRef, {
+						totalSelectionsVotes,
+						totalSelections,
+						averageSelections
+					});
 				});
 			});
 		});

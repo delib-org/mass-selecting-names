@@ -5,36 +5,47 @@ import DB from '../../../control/firebase';
 
 function Card(props) {
 
+    
+
     const [selected, setSelected] = useState(false);
 
     function selectName(name, number) {
 
         // setSelected(true)
         console.log(name, number)
-        
-        const selectedNames = { selected: undefined, unselected: undefined };
-        
         let names = props.names;
+
+        //set unselected
+        let unselected = []
+        names[props.seriesIndex].map((nameObj, index) => {
+            if (index !== number) {
+                unselected.push(nameObj)
+            }
+        })
         
-        console.log(names)
+        const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
+        
+        
+        
+        console.log(selectedNames)
         
         //change to who is slelected
-        selectedNames.selected = props.name;
-        names[props.seriesIndex][0].isNew = false;
-         names[props.seriesIndex][1].isNew = false;
+        // selectedNames.selected = props.name;
+        // names[props.seriesIndex][0].isNew = false;
+        //  names[props.seriesIndex][1].isNew = false;
         
-        if (props.number === 0) {           
-            names[props.seriesIndex][0].selected = true
-            names[props.seriesIndex][1].selected = false
+        // if (props.number === 0) {           
+        //     names[props.seriesIndex][0].selected = true
+        //     names[props.seriesIndex][1].selected = false
 
-            selectedNames.unselected = props.couple[1]
+        //     selectedNames.unselected = props.couple[1]
             
-        } else {           
-             names[props.seriesIndex][1].selected = true
-            names[props.seriesIndex][0].selected = false
+        // } else {           
+        //      names[props.seriesIndex][1].selected = true
+        //     names[props.seriesIndex][0].selected = false
             
-            selectedNames.unselected = props.couple[0]
-        }
+        //     selectedNames.unselected = props.couple[0]
+        // }
 
         props.setNames(names);
 
