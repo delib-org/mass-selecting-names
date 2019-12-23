@@ -14,6 +14,7 @@ import Nav from './view/components/nav/Nav';
 //pages
 import AddingNames from './view/pages/AddingNames/AddingNames';
 import SelectNames from './view/pages/SelectNames/SelectNames';
+import Results from './view/pages/Results/Results';
 
 function App(props) {
   console.dir(props)
@@ -33,7 +34,9 @@ function App(props) {
           <Route path="/vote">
             <SelectNames />
           </Route>
-
+           <Route path="/results">
+            <Results />
+          </Route>
         </Switch>
       </div>
     </Router>

@@ -13,6 +13,8 @@ function SelectNames(props) {
 	const [ isSpinner, setIsSpinner ] = useState(false);
 	const [ isSeriesNew, setIsSeriesNew ] = useState(true);
 
+	
+
 	function getRandomNames() {
 		setIsSpinner(true);
 		let maxNumber;
@@ -24,6 +26,7 @@ function SelectNames(props) {
 			.collection('subQuestions')
 			.doc('79awrIGoQqrJVmo7p0LO');
 
+		//maxNumber is the number of options to select from
 		ref.collection('maxNumber').doc('maxNumber').get().then((numberDB) => {
 			maxNumber = numberDB.data().maxNumber || 0;
 

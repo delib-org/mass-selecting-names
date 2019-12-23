@@ -5,8 +5,6 @@ import DB from '../../../control/firebase';
 
 function Card(props) {    
 
-    console.dir(props)
-
     function selectName(name, number) {
 
         // setSelected(true)
@@ -51,8 +49,7 @@ function Card(props) {
         <div className={props.name.isNew?"new nameSelect":'nameSelect'} onClick={(e)=>{
             if(props.seriesIndex === 0){selectName(props.name.id, props.number)}
             }}>
-			<div>{props.name.name}</div>
-			
+			<div>{props.name.name}</div>			
 			<div>
                 {!props.name.selected ? <div /> : <i className="material-icons">check_circle</i>}
 			</div>
