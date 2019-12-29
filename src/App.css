@@ -23,3 +23,21 @@ body, html ,.app, #root, .page{
 .page{
   margin-top:100px;
 }
+
+.button{
+  border-radius: 5px;
+  background: teal;
+  color: white;
+  text-align: center;
+  display: grid;
+  align-items: center;
+  box-shadow: 1px 1px 3px gray;
+  padding: 5px 30px;
+  user-select: none;
+  cursor: pointer;
+}
+
+
+.delete{
+  background: red;
+}

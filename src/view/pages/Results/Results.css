@@ -1,0 +1,13 @@
+.resultsWrapper{
+    margin: 100px auto;
+    max-width: 550px;
+}
+
+.name{
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px rgba(128, 128, 128, 0.712);
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}

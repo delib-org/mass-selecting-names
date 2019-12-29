@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-
 
 import {
   BrowserRouter as Router,
@@ -8,7 +7,7 @@ import {
   Route
 } from "react-router-dom";
 
-
+import DB from './control/firebase';
 //components
 import Nav from './view/components/nav/Nav';
 //pages
@@ -16,26 +15,61 @@ import AddingNames from './view/pages/AddingNames/AddingNames';
 import SelectNames from './view/pages/SelectNames/SelectNames';
 import Results from './view/pages/Results/Results';
 
+let x = 0;
+
 function App(props) {
-  console.dir(props)
-  const[userName, setUserName] = useState(false);
+
+  const [userName, setUserName] = useState(false);
+  const [names, setNames] = useState([]);
+  
+
+  function getNames() {
+    return DB.collection('groups')
+      .doc('0nWDzSq0oFoqBXTQJJ6w')
+      .collection('questions')
+      .doc('AhNnQ5GMhN3xMCFYwQp9')
+      .collection('subQuestions')
+      .doc('79awrIGoQqrJVmo7p0LO')
+      .collection('options')
+      .orderBy('averageSelections', 'desc')
+      .onSnapshot(namesDB => {
+
+        let namesTmp = [];
+        namesDB.forEach(nameDB => {
+          let nameTmp = nameDB.data();
+          nameTmp.id = nameDB.id
+          namesTmp.push(nameTmp)
+        })
+
+        setNames(namesTmp);
+        x=namesTmp.length;
+        console.log(namesTmp, x);
+        
+      })
+  }
+
+  useEffect(() => {
+    return getNames();
+
+  }, [])
+
 
   return (
     <Router>
       <div className='app'>
         <Nav />
         <Switch>
-         <Route exact path="/">
-            <AddingNames  setUserName={setUserName} userName={userName}/>
+          <Route exact path="/">
+            <AddingNames setUserName={setUserName} userName={userName} />
           </Route>
           <Route path="/add">
-            <AddingNames  setUserName={setUserName} userName={userName}/>
+            <AddingNames setUserName={setUserName} userName={userName} />
           </Route>
           <Route path="/vote">
-            <SelectNames />
+            <SelectNames names={names} x={x} />
           </Route>
-           <Route path="/results">
-            <Results />
+          <Route path="/results">
+            <Results names={names} />
           </Route>
         </Switch>
       </div>

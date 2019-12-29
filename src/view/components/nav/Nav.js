@@ -16,25 +16,28 @@ function Nav(props) {
 
             <Link to="/add">
                 <div className={(pathname === '/add' || pathname === '/') ? 'navButton navButtonSelected' : 'navButton'}>
-                    
+
                     <i className="material-icons">
                         add_circle
                     </i>
-                    הוספת שמות
+                    <div className='navText'>הוספת שמות</div>
                 </div>
             </Link>
             <Link to="/vote">
                 <div className={(pathname === '/vote') ? 'navButton navButtonSelected' : 'navButton'}>
-                   
+
                     <i className="material-icons">
                         check_circle
-                    </i> 
-                    בחירת שמות   
+                    </i>
+                    <div className='navText'>בחירת שמות</div>
                 </div>
             </Link>
-             <Link to="/results">
-                <div className={(pathname === '/results') ? 'navButton navButtonSelected' : 'navButton'}>    
-                    תוצאות  
+            <Link to="/results">
+                <div className={(pathname === '/results') ? 'navButton navButtonSelected' : 'navButton'}>
+                    <i className="material-icons">
+                        donut_small
+                    </i>
+                    <div className='navText'>תוצאות</div>
                 </div>
             </Link>
 

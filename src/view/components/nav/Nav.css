@@ -15,13 +15,25 @@ nav{
     flex:1;
 }
 
+.navText{
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 550px) {
+    .navText{
+        font-size: .6rem;
+    }
+  }
+
 .navButton{
-    
-    padding: 20px;
+    padding: 5px 20px;
     font-size: 1.5rem;
     background: var(--default-primary-color);
     display: flex;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .navButton>i{
