@@ -2,14 +2,14 @@
 // import 'firebase/firestore';
 
 const config = {
-	apiKey: 'AIzaSyD82XZxw9S90yrFl0PB5ibxy9MZv1GncH4',
-	authDomain: 'mass-names.firebaseapp.com',
-	databaseURL: 'https://mass-names.firebaseio.com',
-	projectId: 'mass-names',
-	storageBucket: 'mass-names.appspot.com',
-	messagingSenderId: '990355098057',
-	appId: '1:990355098057:web:af50ce9fd2aaf0d2e10018',
-	measurementId: 'G-GW6NL7QXD5'
+	apiKey: "AIzaSyBEumZUTCL3Jc9pt7_CjiSVTxmz9aMqSvo",
+  authDomain: "synthesistalyaron.firebaseapp.com",
+  databaseURL: "https://synthesistalyaron.firebaseio.com",
+  projectId: "synthesistalyaron",
+  storageBucket: "synthesistalyaron.appspot.com",
+  messagingSenderId: "799655218679",
+  appId: "1:799655218679:web:d128d57a684353f7b9b2f2"
+
 };
 
 window.firebase.initializeApp(config);

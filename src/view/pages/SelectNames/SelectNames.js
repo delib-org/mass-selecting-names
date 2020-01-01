@@ -9,34 +9,47 @@ import Spinner from '../../components/nav/Spinner';
 import DB from '../../../control/firebase';
 
 function SelectNames(props) {
-	const [ names, setNames ] = useState([]);
-	const [ isSpinner, setIsSpinner ] = useState(false);
-	const [ isSeriesNew, setIsSeriesNew ] = useState(true);
+	const [names, setNames] = useState([]);
+	const [isSpinner, setIsSpinner] = useState(false);
+	const [isSeriesNew, setIsSeriesNew] = useState(true);
 
-	
+
 
 	function getRandomNames() {
 		setIsSpinner(true);
-		let maxNumber;
-		let resultsNumber = 6;
-		let ref = DB.collection('groups')
-			.doc('0nWDzSq0oFoqBXTQJJ6w')
-			.collection('questions')
-			.doc('AhNnQ5GMhN3xMCFYwQp9')
-			.collection('subQuestions')
-			.doc('79awrIGoQqrJVmo7p0LO');
+
 
 		//maxNumber is the number of options to select from
-		ref.collection('maxNumber').doc('maxNumber').get().then((numberDB) => {
-			maxNumber = numberDB.data().maxNumber || 0;
+
+		//got number of options from app
+
+		let maxNumber = props.names.length;
+		if (maxNumber === 0) {
+			setTimeout(() => {
+				getRandomNames();
+				console.log('waiting', props.x)
+			}, 1000);
+		} else {
+			console.log('maxNumber', maxNumber)
+			let resultsNumber = 6;
+			let ref = DB.collection('groups')
+				.doc('0nWDzSq0oFoqBXTQJJ6w')
+				.collection('questions')
+				.doc('AhNnQ5GMhN3xMCFYwQp9')
+				.collection('subQuestions')
+				.doc('79awrIGoQqrJVmo7p0LO');
+
+
+			console.log('maxNumber', maxNumber)
 
 			let randomNames = new Set();
 			let i = 0;
 			while (randomNames.size < resultsNumber && i < 20) {
-				randomNames.add(Math.ceil(Math.random() * maxNumber));
+				randomNames.add(Math.floor(Math.random() * maxNumber));
 				i++;
 			}
-			let rndNumbers = [ ...randomNames ];
+			let rndNumbers = [...randomNames];
+			console.dir(rndNumbers)
 			let namesArr = [];
 
 			rndNumbers.forEach((rndNumber) => {
@@ -46,23 +59,29 @@ function SelectNames(props) {
 						tempNameObj.id = nameDB.id;
 						tempNameObj.isNew = true;
 						namesArr.push(tempNameObj);
-						
+
 						//update to dom, after all calls from DB returend
 						if (namesArr.length === resultsNumber) {
 							setIsSpinner(false);
-							setNames([ namesArr, ...names ]);
-						
+							setNames([namesArr, ...names]);
+
 							setIsSeriesNew(true)
 						}
 					});
 				});
 			});
-		});
+		}
 	}
 
-	useEffect(() => {		
+	useEffect(() => {
 		getRandomNames();
+		setInterval(() => {
+			console.log('x',props.x)
+		}, 1000);
 	}, []);
+	useEffect(()=>{
+		console.dir(props.x)
+	})
 
 	return (
 		<div className="page">

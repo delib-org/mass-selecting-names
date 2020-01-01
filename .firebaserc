@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "mass-names"
+    "default": "mass-names-delib",
+    "mass-names": "mass-names"
   }
 }
