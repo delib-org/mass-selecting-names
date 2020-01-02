@@ -9,7 +9,7 @@ export function simpleName(name) {
 }
 
 export function getRandomNames(arr, numberOfNames = 1) {
-
+    
     if (arr) {
 
         if (arr.size <= numberOfNames) {

@@ -42,8 +42,7 @@ function App(props) {
         })
 
         setNames(namesTmp);
-        x=namesTmp.length;
-        console.log(namesTmp, x);
+       
         
       })
   }
