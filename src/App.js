@@ -15,7 +15,6 @@ import AddingNames from './view/pages/AddingNames/AddingNames';
 import SelectNames from './view/pages/SelectNames/SelectNames';
 import Results from './view/pages/Results/Results';
 
-let x = 0;
 
 function App(props) {
 
@@ -65,7 +64,7 @@ function App(props) {
             <AddingNames setUserName={setUserName} userName={userName} />
           </Route>
           <Route path="/vote">
-            <SelectNames names={names} x={x} />
+            <SelectNames />
           </Route>
           <Route path="/results">
             <Results names={names} />

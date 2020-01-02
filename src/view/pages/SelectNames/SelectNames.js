@@ -7,7 +7,7 @@ import Spinner from '../../components/nav/Spinner';
 
 //control
 import DB from '../../../control/firebase';
-import {getRandomNames} from '../../../control/general';
+import { getRandomNames } from '../../../control/general';
 
 function SelectNames(props) {
 	const [nameSelections, setNameSelections] = useState([]);
@@ -16,7 +16,8 @@ function SelectNames(props) {
 
 	useEffect(() => {
 		console.log('useEffect....')
-		getNamesFromDB(setIsSpinner, nameSelections, setNameSelections,setIsSeriesNew)
+
+		getRnadomNamesFromDB(6, setIsSpinner, nameSelections, setNameSelections, setIsSeriesNew)
 	}, []);
 
 	return (
@@ -48,34 +49,118 @@ function SelectNames(props) {
 
 export default SelectNames;
 
-function getNamesFromDB(setIsSpinner,nameSelections, setNameSelections,setIsSeriesNew) {
+function getRnadomNamesFromDB(numberOfNames, setIsSpinner, nameSelections, setNameSelections, setIsSeriesNew) {
+
+
+
 	console.log('getNamesFromDB')
 	setIsSpinner(true);
 
-	DB.collection('groups')
-		.doc('0nWDzSq0oFoqBXTQJJ6w')
-		.collection('questions')
-		.doc('AhNnQ5GMhN3xMCFYwQp9')
-		.collection('subQuestions')
-		.doc('79awrIGoQqrJVmo7p0LO')
-		.collection('options')
-		.orderBy('averageSelections', 'desc')
-		.get()
-		.then(namesDB => {
-			let namesTmpArr = []
-			namesDB.forEach(nameDB => {
-				let nameTmpObj = nameDB.data();
-				nameTmpObj.isNew = true;
-				nameTmpObj.id = nameDB.id;
-				namesTmpArr.push(nameTmpObj);
+	let newNames = new Set();
+	let newNamesArr = [];
+	let counter = 0;
+	
+
+	function getName(countUpTo){
+		let random = Math.random() * 110;
+
+		console.log(random)
+		DB.collection('groups')
+			.doc('0nWDzSq0oFoqBXTQJJ6w')
+			.collection('questions')
+			.doc('AhNnQ5GMhN3xMCFYwQp9')
+			.collection('subQuestions')
+			.doc('79awrIGoQqrJVmo7p0LO')
+			.collection('options')
+			.orderBy('random', 'desc')
+			.where('random', '<=', random)
+			.limit(1)
+			.get()
+			.then(namesDB => {
+				counter++;
+				console.log('counter:', counter)
+				//if result ok, add to names
+				if (!namesDB.empty) {
+					namesDB.forEach(nameDB => {
+						let previous = newNames.size;
+						newNames.add(nameDB.data().random)
+						if(previous<newNames.size){
+							newNamesArr.push(nameDB.data())
+							console.log(newNamesArr)
+						}
+
+						if (newNames.size >= numberOfNames) {
+							setIsSpinner(false);
+							setNameSelections([newNamesArr,...nameSelections]);
+							console.dir(nameSelections);
+							return
+						} else if(counter == countUpTo){
+							console.log(counter, countUpTo);
+							counter = 0;
+							for (let i = 0; i < numberOfNames; i++) {
+								getName(numberOfNames);
+								
+							}
+						}
+						
+					})
+				} 
 			});
-			console.log(namesTmpArr);
-			let tempRandNames = getRandomNames(namesTmpArr, 6);
-			console.log(tempRandNames);
-			setIsSpinner(false);
-			setNameSelections([tempRandNames, ...nameSelections]);
+	}
 
-			setIsSeriesNew(true)
-		})
+	for (let i = 0; i < numberOfNames; i++) {
+		getName(numberOfNames);
+		
+	}
 
-};
+	// let previousSize = newNames.size;
+	// 				newNames.add(nameDB.data().random)
+
+	// 				//if new name added add to the array
+	// 				if (previousSize < newNames.size) {
+	// 					newNamesArr.push(nameDB.data())
+	// 				}
+
+	// 				console.log(nameDB.data());
+	// 				console.dir(newNames)
+	// 				console.dir(newNamesArr)
+
+					
+
+
+
+}
+
+
+// getName();
+
+
+
+	// DB.collection('groups')
+	// 	.doc('0nWDzSq0oFoqBXTQJJ6w')
+	// 	.collection('questions')
+	// 	.doc('AhNnQ5GMhN3xMCFYwQp9')
+	// 	.collection('subQuestions')
+	// 	.doc('79awrIGoQqrJVmo7p0LO')
+	// 	.collection('options')
+	// 	.orderBy('averageSelections', 'desc')
+	// 	.where('random')
+	// 	.get()
+	// 	.then(namesDB => {
+	// 		let namesTmpArr = []
+	// 		namesDB.forEach(nameDB => {
+	// 			let nameTmpObj = nameDB.data();
+	// 			nameTmpObj.isNew = true;
+	// 			nameTmpObj.id = nameDB.id;
+	// 			namesTmpArr.push(nameTmpObj);
+	// 		});
+	// 		console.log(namesTmpArr);
+	// 		let tempRandNames = getRandomNames(namesTmpArr, 6);
+	// 		console.log(tempRandNames);
+	// 		setIsSpinner(false);
+	// 		setNameSelections([tempRandNames, ...nameSelections]);
+
+	// 		setIsSeriesNew(true)
+	// 	})
+
+

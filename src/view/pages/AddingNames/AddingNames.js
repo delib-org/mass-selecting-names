@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './AddingNames.css';
 
 //control
 import DB from '../../../control/firebase';
 import { simpleName } from '../../../control/general';
 
-let lastNumber = 0;
+
 let foundNames = new Set();
 let ref = DB.collection('groups').doc('0nWDzSq0oFoqBXTQJJ6w')
     .collection('questions').doc('AhNnQ5GMhN3xMCFYwQp9')
@@ -15,17 +15,7 @@ function AddingNames(props) {
 
     const [names, setNames] = useState([]);
 
-    useEffect(() => {
-
-        ref.collection('options').orderBy('time', 'desc').limit(1).onSnapshot(namesDB => {
-            namesDB.forEach(nameDB => {
-            
-                
-                lastNumber = nameDB.data().number || 0;
-            })
-        },doc=>{console.log(doc)})
-    }, [])
-
+    
 
     function addName(e) {
         e.preventDefault();
@@ -45,9 +35,6 @@ function AddingNames(props) {
 
         e.target.elements.newname.value = '';
 
-
-
-        console.log(name, searchString)
 
         ref.collection('options').add({
             userName: userName || props.userName,
