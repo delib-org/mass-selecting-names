@@ -54,12 +54,7 @@ function AddingNames(props) {
             name,
             searchString,
             time: new Date().getTime(),
-            number: lastNumber + 1
-        }).then(docDB => {
-            ref.collection('maxNumber').doc('maxNumber')
-                .set({ maxNumber: lastNumber })
-
-            alert('השם שרשמתם הוסף בהצלחה, ומחכה לדרוג על ידי תושבים אחרים')
+            random: Math.random()*100
         })
     }
 

@@ -14,14 +14,9 @@ function SelectNames(props) {
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [isSeriesNew, setIsSeriesNew] = useState(true);
 
-
-
-	
-
-
 	useEffect(() => {
 		console.log('useEffect....')
-		getRandomNames2(setIsSpinner, nameSelections, setNameSelections,setIsSeriesNew)
+		getNamesFromDB(setIsSpinner, nameSelections, setNameSelections,setIsSeriesNew)
 	}, []);
 
 	return (
@@ -53,8 +48,8 @@ function SelectNames(props) {
 
 export default SelectNames;
 
-function getRandomNames2(setIsSpinner,nameSelections, setNameSelections,setIsSeriesNew) {
-	console.log('getRandomNames')
+function getNamesFromDB(setIsSpinner,nameSelections, setNameSelections,setIsSeriesNew) {
+	console.log('getNamesFromDB')
 	setIsSpinner(true);
 
 	DB.collection('groups')
@@ -71,6 +66,7 @@ function getRandomNames2(setIsSpinner,nameSelections, setNameSelections,setIsSer
 			namesDB.forEach(nameDB => {
 				let nameTmpObj = nameDB.data();
 				nameTmpObj.isNew = true;
+				nameTmpObj.id = nameDB.id;
 				namesTmpArr.push(nameTmpObj);
 			});
 			console.log(namesTmpArr);
@@ -81,8 +77,5 @@ function getRandomNames2(setIsSpinner,nameSelections, setNameSelections,setIsSer
 
 			setIsSeriesNew(true)
 		})
-
-
-
 
 };

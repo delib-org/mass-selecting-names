@@ -4,9 +4,9 @@ import DB from '../../../control/firebase';
 
 
 function Card(props) {    
-
+    console.dir(props)
     function selectName(name, number) {
-
+        debugger;
         // setSelected(true)
         props.names[props.seriesIndex][number].selected = true;
 
