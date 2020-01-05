@@ -42,6 +42,10 @@ function AddingNames(props) {
             searchString,
             time: new Date().getTime(),
             random: Math.random()*100
+        }).then(doc=>{
+            alert('השם שרשמתם הוסף בהצלחה')
+        }).catch(err=>{
+            alert(err.message)
         })
     }
 

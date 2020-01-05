@@ -10,14 +10,15 @@ import DB from '../../../control/firebase';
 import { getRandomNames } from '../../../control/general';
 
 function SelectNames(props) {
-	const [nameSelections, setNameSelections] = useState([]);
+	const [names, setNames] = useState([]);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [isSeriesNew, setIsSeriesNew] = useState(true);
+	let numberOfNames = 6;
 
 	useEffect(() => {
-		console.log('useEffect....')
+		
 
-		getRnadomNamesFromDB(6, setIsSpinner, nameSelections, setNameSelections, setIsSeriesNew)
+		getRnadomNamesFromDB()
 	}, []);
 
 	return (
@@ -26,16 +27,16 @@ function SelectNames(props) {
 
 			<div className="">
 				{isSpinner ? <Spinner /> : <div />}
-				{nameSelections.map((series, index) => {
+				{names.map((series, index) => {
 					return (
 						<div className="namesSelect" key={index}>
 							<Series
 								series={series}
 								key={index}
 								seriesIndex={index}
-								getRandomNames={getRandomNames}
-								names={nameSelections}
-								setNames={setNameSelections}
+								getRnadomNamesFromDB={getRnadomNamesFromDB}
+								names={names}
+								setNames={setNames}
 								isSeriesNew={isSeriesNew}
 								setIsSeriesNew={setIsSeriesNew}
 							/>
@@ -45,91 +46,88 @@ function SelectNames(props) {
 			</div>
 		</div>
 	);
+
+
+	function getRnadomNamesFromDB() {
+
+
+
+		console.log('getNamesFromDB')
+		setIsSpinner(true);
+	
+		let newNames = new Set();
+		let newNamesArr = [];
+		let counter = 0;
+		
+	
+		function getName(countUpTo){
+			let random = Math.random() * 110;
+	
+			console.log(random)
+			DB.collection('groups')
+				.doc('0nWDzSq0oFoqBXTQJJ6w')
+				.collection('questions')
+				.doc('AhNnQ5GMhN3xMCFYwQp9')
+				.collection('subQuestions')
+				.doc('79awrIGoQqrJVmo7p0LO')
+				.collection('options')
+				.orderBy('random', 'desc')
+				.where('random', '<=', random)
+				.limit(1)
+				.get()
+				.then(namesDB => {
+					counter++;
+					console.log('counter:', counter)
+					//if result ok, add to names
+					if (!namesDB.empty) {
+						namesDB.forEach(nameDB => {
+							let previous = newNames.size;
+							newNames.add(nameDB.data().random)
+							console.log('newNames.size', newNames.size, ' --- countUpTo', countUpTo)
+	
+							//if a name was added then add to the array
+							if(previous<newNames.size && newNames.size <= numberOfNames){
+
+								 let tempName = nameDB.data();
+								tempName.id = nameDB.id;
+
+								newNamesArr.push(tempName)
+								console.log(newNamesArr)
+							}
+	
+							if (newNames.size >= numberOfNames) {
+								setIsSpinner(false);
+								setNames([newNamesArr,...names]);
+								console.dir(names);
+								return
+							} else if(counter === countUpTo){
+								console.log(counter, countUpTo);
+								counter = 0;
+								console.log('get more names .................');
+								for (let i = 0; i < numberOfNames; i++) {
+									
+									getName(numberOfNames);
+									
+								}
+							}
+							
+						})
+					} 
+				});
+		}
+	
+		for (let i = 0; i < numberOfNames; i++) {
+			getName(numberOfNames);
+			
+		}
+	
+		
+	}
 }
 
 export default SelectNames;
 
-function getRnadomNamesFromDB(numberOfNames, setIsSpinner, nameSelections, setNameSelections, setIsSeriesNew) {
 
-
-
-	console.log('getNamesFromDB')
-	setIsSpinner(true);
-
-	let newNames = new Set();
-	let newNamesArr = [];
-	let counter = 0;
-	
-
-	function getName(countUpTo){
-		let random = Math.random() * 110;
-
-		console.log(random)
-		DB.collection('groups')
-			.doc('0nWDzSq0oFoqBXTQJJ6w')
-			.collection('questions')
-			.doc('AhNnQ5GMhN3xMCFYwQp9')
-			.collection('subQuestions')
-			.doc('79awrIGoQqrJVmo7p0LO')
-			.collection('options')
-			.orderBy('random', 'desc')
-			.where('random', '<=', random)
-			.limit(1)
-			.get()
-			.then(namesDB => {
-				counter++;
-				console.log('counter:', counter)
-				//if result ok, add to names
-				if (!namesDB.empty) {
-					namesDB.forEach(nameDB => {
-						let previous = newNames.size;
-						newNames.add(nameDB.data().random)
-						if(previous<newNames.size){
-							newNamesArr.push(nameDB.data())
-							console.log(newNamesArr)
-						}
-
-						if (newNames.size >= numberOfNames) {
-							setIsSpinner(false);
-							setNameSelections([newNamesArr,...nameSelections]);
-							console.dir(nameSelections);
-							return
-						} else if(counter == countUpTo){
-							console.log(counter, countUpTo);
-							counter = 0;
-							for (let i = 0; i < numberOfNames; i++) {
-								getName(numberOfNames);
-								
-							}
-						}
-						
-					})
-				} 
-			});
-	}
-
-	for (let i = 0; i < numberOfNames; i++) {
-		getName(numberOfNames);
-		
-	}
-
-	// let previousSize = newNames.size;
-	// 				newNames.add(nameDB.data().random)
-
-	// 				//if new name added add to the array
-	// 				if (previousSize < newNames.size) {
-	// 					newNamesArr.push(nameDB.data())
-	// 				}
-
-	// 				console.log(nameDB.data());
-	// 				console.dir(newNames)
-	// 				console.dir(newNamesArr)
-
-					
-
-
-
-}
 
 
 // getName();
@@ -158,7 +156,7 @@ function getRnadomNamesFromDB(numberOfNames, setIsSpinner, nameSelections, setNa
 	// 		let tempRandNames = getRandomNames(namesTmpArr, 6);
 	// 		console.log(tempRandNames);
 	// 		setIsSpinner(false);
-	// 		setNameSelections([tempRandNames, ...nameSelections]);
+	// 		setNames([tempRandNames, ...names]);
 
 	// 		setIsSeriesNew(true)
 	// 	})
