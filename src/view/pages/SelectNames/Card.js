@@ -4,16 +4,18 @@ import DB from '../../../control/firebase';
 
 
 function Card(props) {    
-
+    console.dir(props)
     function selectName(name, number) {
+      
 
+        let names = [...props.names];
         // setSelected(true)
-        props.names[props.seriesIndex][number].selected = true;
+        names[props.seriesIndex][number].selected = true;
 
-        let names = props.names;
+        
 
-        //remove new
-        props.names[props.seriesIndex].map((element, index) => {
+        //remove new form series
+        names[props.seriesIndex].map((element, index) => {
            return props.names[props.seriesIndex][index].isNew = false;
         })
         
@@ -25,10 +27,12 @@ function Card(props) {
             }
             return true;
         })
+
+        props.setNames(names);
         
         const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
 
-        props.setNames(names);       
+        // props.setNames(names);       
 
         DB.collection('groups')
             .doc('0nWDzSq0oFoqBXTQJJ6w')
@@ -40,7 +44,7 @@ function Card(props) {
             .add(selectedNames)
             .then(doc => {
                 console.log('update to db', doc.id);
-                props.getRandomNames();
+                props.getRnadomNamesFromDB();
 
             })
 	}

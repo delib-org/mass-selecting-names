@@ -20,10 +20,11 @@ function Series(props) {
                             key={index}
                             number={index}
                             seriesIndex={props.seriesIndex}
-                            name={name} names={props.names}
+                            name={name} 
+                            names={props.names}
                             setNames={props.setNames}
                             couple={props.series}
-                            getRandomNames={props.getRandomNames}
+                            getRnadomNamesFromDB={props.getRnadomNamesFromDB}
                            
                         />
                     )

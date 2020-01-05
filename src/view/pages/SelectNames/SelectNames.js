@@ -7,21 +7,18 @@ import Spinner from '../../components/nav/Spinner';
 
 //control
 import DB from '../../../control/firebase';
-import {getRandomNames} from '../../../control/general';
+import { getRandomNames } from '../../../control/general';
 
 function SelectNames(props) {
-	const [nameSelections, setNameSelections] = useState([]);
+	const [names, setNames] = useState([]);
 	const [isSpinner, setIsSpinner] = useState(false);
 	const [isSeriesNew, setIsSeriesNew] = useState(true);
-
-
-
-	
-
+	let numberOfNames = 6;
 
 	useEffect(() => {
-		console.log('useEffect....')
-		getRandomNames2(setIsSpinner, nameSelections, setNameSelections,setIsSeriesNew)
+		
+
+		getRnadomNamesFromDB()
 	}, []);
 
 	return (
@@ -30,16 +27,16 @@ function SelectNames(props) {
 
 			<div className="">
 				{isSpinner ? <Spinner /> : <div />}
-				{nameSelections.map((series, index) => {
+				{names.map((series, index) => {
 					return (
 						<div className="namesSelect" key={index}>
 							<Series
 								series={series}
 								key={index}
 								seriesIndex={index}
-								getRandomNames={getRandomNames}
-								names={nameSelections}
-								setNames={setNameSelections}
+								getRnadomNamesFromDB={getRnadomNamesFromDB}
+								names={names}
+								setNames={setNames}
 								isSeriesNew={isSeriesNew}
 								setIsSeriesNew={setIsSeriesNew}
 							/>
@@ -49,40 +46,120 @@ function SelectNames(props) {
 			</div>
 		</div>
 	);
+
+
+	function getRnadomNamesFromDB() {
+
+
+
+		console.log('getNamesFromDB')
+		setIsSpinner(true);
+	
+		let newNames = new Set();
+		let newNamesArr = [];
+		let counter = 0;
+		
+	
+		function getName(countUpTo){
+			let random = Math.random() * 110;
+	
+			console.log(random)
+			DB.collection('groups')
+				.doc('0nWDzSq0oFoqBXTQJJ6w')
+				.collection('questions')
+				.doc('AhNnQ5GMhN3xMCFYwQp9')
+				.collection('subQuestions')
+				.doc('79awrIGoQqrJVmo7p0LO')
+				.collection('options')
+				.orderBy('random', 'desc')
+				.where('random', '<=', random)
+				.limit(1)
+				.get()
+				.then(namesDB => {
+					counter++;
+					console.log('counter:', counter)
+					//if result ok, add to names
+					if (!namesDB.empty) {
+						namesDB.forEach(nameDB => {
+							let previous = newNames.size;
+							newNames.add(nameDB.data().random)
+							console.log('newNames.size', newNames.size, ' --- countUpTo', countUpTo)
+	
+							//if a name was added then add to the array
+							if(previous<newNames.size && newNames.size <= numberOfNames){
+
+								 let tempName = nameDB.data();
+								tempName.id = nameDB.id;
+								tempName.isNew = true;
+
+								newNamesArr.push(tempName)
+								console.log(newNamesArr)
+							}
+	
+							if (newNames.size >= numberOfNames) {
+								setIsSpinner(false);
+								setNames([newNamesArr,...names]);
+								console.dir(names);
+								return
+							} else if(counter === countUpTo){
+								console.log(counter, countUpTo);
+								counter = 0;
+								console.log('get more names .................');
+								for (let i = 0; i < numberOfNames; i++) {
+									
+									getName(numberOfNames);
+									
+								}
+							}
+							
+						})
+					} 
+				});
+		}
+	
+		for (let i = 0; i < numberOfNames; i++) {
+			getName(numberOfNames);
+			
+		}
+	
+		
+	}
 }
 
 export default SelectNames;
 
-function getRandomNames2(setIsSpinner,nameSelections, setNameSelections,setIsSeriesNew) {
-	console.log('getRandomNames')
-	setIsSpinner(true);
-
-	DB.collection('groups')
-		.doc('0nWDzSq0oFoqBXTQJJ6w')
-		.collection('questions')
-		.doc('AhNnQ5GMhN3xMCFYwQp9')
-		.collection('subQuestions')
-		.doc('79awrIGoQqrJVmo7p0LO')
-		.collection('options')
-		.orderBy('averageSelections', 'desc')
-		.get()
-		.then(namesDB => {
-			let namesTmpArr = []
-			namesDB.forEach(nameDB => {
-				let nameTmpObj = nameDB.data();
-				nameTmpObj.isNew = true;
-				namesTmpArr.push(nameTmpObj);
-			});
-			console.log(namesTmpArr);
-			let tempRandNames = getRandomNames(namesTmpArr, 6);
-			console.log(tempRandNames);
-			setIsSpinner(false);
-			setNameSelections([tempRandNames, ...nameSelections]);
-
-			setIsSeriesNew(true)
-		})
 
 
 
+// getName();
 
-};
+
+
+	// DB.collection('groups')
+	// 	.doc('0nWDzSq0oFoqBXTQJJ6w')
+	// 	.collection('questions')
+	// 	.doc('AhNnQ5GMhN3xMCFYwQp9')
+	// 	.collection('subQuestions')
+	// 	.doc('79awrIGoQqrJVmo7p0LO')
+	// 	.collection('options')
+	// 	.orderBy('averageSelections', 'desc')
+	// 	.where('random')
+	// 	.get()
+	// 	.then(namesDB => {
+	// 		let namesTmpArr = []
+	// 		namesDB.forEach(nameDB => {
+	// 			let nameTmpObj = nameDB.data();
+	// 			nameTmpObj.isNew = true;
+	// 			nameTmpObj.id = nameDB.id;
+	// 			namesTmpArr.push(nameTmpObj);
+	// 		});
+	// 		console.log(namesTmpArr);
+	// 		let tempRandNames = getRandomNames(namesTmpArr, 6);
+	// 		console.log(tempRandNames);
+	// 		setIsSpinner(false);
+	// 		setNames([tempRandNames, ...names]);
+
+	// 		setIsSeriesNew(true)
+	// 	})
+
+
