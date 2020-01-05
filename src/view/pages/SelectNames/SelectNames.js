@@ -90,6 +90,7 @@ function SelectNames(props) {
 
 								 let tempName = nameDB.data();
 								tempName.id = nameDB.id;
+								tempName.isNew = true;
 
 								newNamesArr.push(tempName)
 								console.log(newNamesArr)
