@@ -20,6 +20,7 @@ form>* {
 
 input[type=text] {
     width: 100%;
+    background: #dedede;
 }
 
 input[type=submit] {

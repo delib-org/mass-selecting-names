@@ -30,7 +30,6 @@ function App(props) {
       .collection('subQuestions')
       .doc('79awrIGoQqrJVmo7p0LO')
       .collection('options')
-      .orderBy('averageSelections', 'desc')
       .onSnapshot(namesDB => {
 
         let namesTmp = [];
@@ -38,7 +37,12 @@ function App(props) {
           let nameTmp = nameDB.data();
           nameTmp.id = nameDB.id
           namesTmp.push(nameTmp)
+          if(!nameTmp.averageSelections){
+            
+          }
         })
+
+        namesTmp.filter((a,b)=> a.averageSelections - b.averageSelections)
 
         setNames(namesTmp);
        
