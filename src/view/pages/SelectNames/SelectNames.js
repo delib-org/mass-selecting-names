@@ -50,9 +50,9 @@ function SelectNames(props) {
 
 	function getRnadomNamesFromDB() {
 
+		getRandomNames(window.allNames,6);
 
-
-		console.log('getNamesFromDB')
+	
 		setIsSpinner(true);
 	
 		let newNames = new Set();
@@ -63,7 +63,7 @@ function SelectNames(props) {
 		function getName(countUpTo){
 			let random = Math.random() * 110;
 	
-			console.log(random)
+		
 			DB.collection('groups')
 				.doc('0nWDzSq0oFoqBXTQJJ6w')
 				.collection('questions')
@@ -77,13 +77,13 @@ function SelectNames(props) {
 				.get()
 				.then(namesDB => {
 					counter++;
-					console.log('counter:', counter)
+					
 					//if result ok, add to names
 					if (!namesDB.empty) {
 						namesDB.forEach(nameDB => {
 							let previous = newNames.size;
 							newNames.add(nameDB.data().random)
-							console.log('newNames.size', newNames.size, ' --- countUpTo', countUpTo)
+						
 	
 							//if a name was added then add to the array
 							if(previous<newNames.size && newNames.size <= numberOfNames){
@@ -93,18 +93,17 @@ function SelectNames(props) {
 								tempName.isNew = true;
 
 								newNamesArr.push(tempName)
-								console.log(newNamesArr)
+							
 							}
 	
 							if (newNames.size >= numberOfNames) {
 								setIsSpinner(false);
 								setNames([newNamesArr,...names]);
-								console.dir(names);
+								
 								return
-							} else if(counter === countUpTo){
-								console.log(counter, countUpTo);
+							} else if(counter === countUpTo){console.log(counter, countUpTo);
 								counter = 0;
-								console.log('get more names .................');
+							
 								for (let i = 0; i < numberOfNames; i++) {
 									
 									getName(numberOfNames);

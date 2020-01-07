@@ -4,7 +4,7 @@ import DB from '../../../control/firebase';
 
 
 function Card(props) {    
-    console.dir(props)
+   
     function selectName(name, number) {
       
 
@@ -43,7 +43,7 @@ function Card(props) {
             .collection('selections')
             .add(selectedNames)
             .then(doc => {
-                console.log('update to db', doc.id);
+              
                 props.getRnadomNamesFromDB();
 
             })

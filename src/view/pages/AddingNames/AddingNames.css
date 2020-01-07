@@ -7,13 +7,13 @@
     margin: 20px;
 }
 
-form {
+.bottomBox>form {
     width: 100%;
     display: flex;
     
 }
 
-form>* {
+.bottomBox>form>* {
     font-size: 2rem;
     padding: 20px;
 }

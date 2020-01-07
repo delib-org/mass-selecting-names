@@ -14,9 +14,52 @@ import Nav from './view/components/nav/Nav';
 import AddingNames from './view/pages/AddingNames/AddingNames';
 import SelectNames from './view/pages/SelectNames/SelectNames';
 import Results from './view/pages/Results/Results';
+import Login from './view/pages/Login/Login';
 
+window.allNames = [];
 
 function App(props) {
+
+  // const [allNames, setAllNames] = useState([])
+  const [userObj, setUserObj] = useState({
+    email:'',
+    isAnonymous:'',
+    displayName:'',
+    login:false
+  })
+
+  useEffect(()=>{
+
+
+    window.firebase.auth().signInAnonymously().catch(function(error) {
+     
+      console.error(error)
+      
+    });
+
+    window.firebase.auth().onAuthStateChanged(user=>{
+      if (user) {
+
+        setUserName(user);
+        DB.collection('users').doc(user.uid).set({
+          email:user.email,
+          isAnonymous:user.isAnonymous,
+          displayName:user.displayName,
+          login:true
+        })
+      } else {
+       console.log('No user is signed in.');
+       setUserObj({
+        email:'',
+        isAnonymous:'',
+        displayName:'',
+        login:false
+      })
+      }
+    });
+    
+    
+  },[])
 
   const [userName, setUserName] = useState(false);
   const [names, setNames] = useState([]);
@@ -33,18 +76,26 @@ function App(props) {
       .onSnapshot(namesDB => {
 
         let namesTmp = [];
+        
         namesDB.forEach(nameDB => {
           let nameTmp = nameDB.data();
           nameTmp.id = nameDB.id
+          nameTmp.randomOrder = Math.random();
           namesTmp.push(nameTmp)
           if(!nameTmp.averageSelections){
+            nameTmp.averageSelections = 0;
+           
             
           }
         })
 
-        namesTmp.filter((a,b)=> a.averageSelections - b.averageSelections)
-
+        namesTmp.sort((a,b)=> b.averageSelections - a.averageSelections)
         setNames(namesTmp);
+
+        //random sort array;
+        window.allNames = namesTmp.sort((a,b)=> b.randomOrder - a.randomOrder);
+        console.log(window.allNames)
+        // setAllNames(randonNames)
        
         
       })
@@ -65,13 +116,16 @@ function App(props) {
             <AddingNames setUserName={setUserName} userName={userName} />
           </Route>
           <Route path="/add">
-            <AddingNames setUserName={setUserName} userName={userName} />
+            <AddingNames setUserName={setUserName} userName={userName} allNames={window.allNames} />
           </Route>
           <Route path="/vote">
             <SelectNames />
           </Route>
           <Route path="/results">
             <Results names={names} />
+          </Route>
+          <Route path="/login">
+            <Login />
           </Route>
         </Switch>
       </div>
@@ -80,3 +134,5 @@ function App(props) {
 }
 
 export default App;
+
+
