@@ -6,8 +6,8 @@ import Card from './Card';
 
 
 function Series(props) {
-   
-    
+
+
 
     return (
         <div className={props.series[0].isNew ? 'namesSelectSeries newSeries' : 'namesSelectSeries'}>
@@ -20,12 +20,13 @@ function Series(props) {
                             key={index}
                             number={index}
                             seriesIndex={props.seriesIndex}
-                            name={name} 
+                            randNames={props.randNames}
+                            setSerieses={props.setSerieses}
+                            serieses={props.serieses}
+                            series={props.series}
+                            name={name}
                             names={props.names}
-                            setNames={props.setNames}
                             couple={props.series}
-                            getRnadomNamesFromDB={props.getRnadomNamesFromDB}
-                           
                         />
                     )
                 })

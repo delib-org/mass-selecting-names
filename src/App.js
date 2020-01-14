@@ -18,54 +18,58 @@ import Login from './view/pages/Login/Login';
 
 window.allNames = [];
 
+
+
 function App(props) {
 
   // const [allNames, setAllNames] = useState([])
   const [userObj, setUserObj] = useState({
-    email:'',
-    isAnonymous:'',
-    displayName:'',
-    login:false
+    email: '',
+    isAnonymous: '',
+    displayName: '',
+    login: false
   })
 
-  useEffect(()=>{
+  useEffect(() => {
 
 
-    window.firebase.auth().signInAnonymously().catch(function(error) {
-     
+    window.firebase.auth().signInAnonymously().catch(function (error) {
+
       console.error(error)
-      
+
     });
 
-    window.firebase.auth().onAuthStateChanged(user=>{
+    window.firebase.auth().onAuthStateChanged(user => {
       if (user) {
 
         setUserName(user);
         DB.collection('users').doc(user.uid).set({
-          email:user.email,
-          isAnonymous:user.isAnonymous,
-          displayName:user.displayName,
-          login:true
+          email: user.email,
+          isAnonymous: user.isAnonymous,
+          displayName: user.displayName,
+          login: true
         })
       } else {
-       console.log('No user is signed in.');
-       setUserObj({
-        email:'',
-        isAnonymous:'',
-        displayName:'',
-        login:false
-      })
+        console.log('No user is signed in.');
+        setUserObj({
+          email: '',
+          isAnonymous: '',
+          displayName: '',
+          login: false
+        })
       }
     });
-    
-    
-  },[])
+
+
+  }, [])
 
   const [userName, setUserName] = useState(false);
   const [names, setNames] = useState([]);
-  
+  const [randNames, setRandNames] = useState([])
+
 
   function getNames() {
+    console.log('get games')
     return DB.collection('groups')
       .doc('0nWDzSq0oFoqBXTQJJ6w')
       .collection('questions')
@@ -76,33 +80,45 @@ function App(props) {
       .onSnapshot(namesDB => {
 
         let namesTmp = [];
-        
+
         namesDB.forEach(nameDB => {
           let nameTmp = nameDB.data();
           nameTmp.id = nameDB.id
           nameTmp.randomOrder = Math.random();
           namesTmp.push(nameTmp)
-          if(!nameTmp.averageSelections){
+          if (!nameTmp.averageSelections) {
             nameTmp.averageSelections = 0;
-           
-            
           }
         })
 
-        namesTmp.sort((a,b)=> b.averageSelections - a.averageSelections)
+        //sort names for "results'
+        namesTmp.sort((a, b) => b.averageSelections - a.averageSelections)
         setNames(namesTmp);
 
+        console.log(namesTmp)
+
+        return namesTmp;
+
         //random sort array;
-        window.allNames = namesTmp.sort((a,b)=> b.randomOrder - a.randomOrder);
-        console.log(window.allNames)
+        // let tmpRands = namesTmp.sort((a, b) => b.randomOrder - a.randomOrder);
+
+        //just if no names in the array, get random names from DB
+
+        // if (randNames.length == 0) {
+        //   console.dir(randNames)
+        //   setRandNames(tmpRands);
+
+        // }
+
         // setAllNames(randonNames)
-       
-        
+
+
       })
   }
 
+
   useEffect(() => {
-    return getNames();
+    getNames()
 
   }, [])
 
@@ -119,7 +135,7 @@ function App(props) {
             <AddingNames setUserName={setUserName} userName={userName} allNames={window.allNames} />
           </Route>
           <Route path="/vote">
-            <SelectNames />
+            <SelectNames setRandNames={setRandNames} randNames={randNames} names={names} />
           </Route>
           <Route path="/results">
             <Results names={names} />

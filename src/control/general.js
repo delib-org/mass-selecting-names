@@ -9,7 +9,7 @@ export function simpleName(name) {
 }
 
 export function getRandomNames(arr, numberOfNames = 1) {
-   
+   console.log(arr, numberOfNames);
     if (arr) {
         if (arr.length <= numberOfNames) {
             console.error('too short array')
@@ -22,7 +22,7 @@ export function getRandomNames(arr, numberOfNames = 1) {
                 let rand = Math.floor(Math.random() * arrayLength);
                 previous = rands.size;
                 rands.add(rand);
-                console.dir(rands)
+             
                 if (previous < rands.size) {
                     arr[rand].isNew = true;
                     tempArray.push(arr[rand]);
@@ -34,33 +34,6 @@ export function getRandomNames(arr, numberOfNames = 1) {
         }
 
 
-        // if (arr.size <= numberOfNames) {
-        //     return arr
-        // } else {
-        //     //create random numbers
-        //     let randNumbers = new Set();
-        //     let safetyStop = numberOfNames*3;
-        //     let i = 0;
-        //     while (randNumbers.size < numberOfNames && i<safetyStop) {
-        //         let newNumber = Math.ceil(Math.random() * (arr.length - 1));
-        //         randNumbers.add(newNumber);
-
-        //         i++;
-        //     }
-
-        //     let tempArr = [];
-        //     randNumbers.forEach(rndNmb=>{
-
-        //         arr[rndNmb].isNew = true;
-
-        //         tempArr.push(arr[rndNmb]);
-        //     })
-
-
-        //     return tempArr;
-        // }
     }
-    //lop through
-
-    //handle less then number of names
+   
 }

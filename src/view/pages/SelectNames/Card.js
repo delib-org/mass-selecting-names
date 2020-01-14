@@ -2,51 +2,43 @@ import React from 'react';
 import './SelectNames.css';
 import DB from '../../../control/firebase';
 
+import {getRandomNames} from '../../../control/general';
+
 
 function Card(props) {    
    
     function selectName(name, number) {
-      
+       
 
-        let names = [...props.names];
+        let serieses = [...props.serieses];
+        console.log(serieses)
         // setSelected(true)
-        names[props.seriesIndex][number].selected = true;
+        serieses[props.seriesIndex][number].selected = true;
 
         
 
         //remove new form series
-        names[props.seriesIndex].map((element, index) => {
-           return props.names[props.seriesIndex][index].isNew = false;
+        serieses[props.seriesIndex].map((element, index) => {
+           return props.serieses[props.seriesIndex][index].isNew = false;
         })
         
         //set unselected
         let unselected = []
-        names[props.seriesIndex].map((nameObj, index) => {
+        serieses[props.seriesIndex].map((nameObj, index) => {
             if (index !== number) {
                 unselected.push(nameObj)
             }
             return true;
         })
 
-        props.setNames(names);
+        // props.setSerieses(serieses);
         
-        const selectedNames = { selected: [names[props.seriesIndex][number]], unselected: unselected };
+        const selectedNames = { selected: [serieses[props.seriesIndex][number]], unselected: unselected };
+        console.log(selectedNames)
 
-        // props.setNames(names);       
-
-        DB.collection('groups')
-            .doc('0nWDzSq0oFoqBXTQJJ6w')
-            .collection('questions')
-            .doc('AhNnQ5GMhN3xMCFYwQp9')
-            .collection('subQuestions')
-            .doc('79awrIGoQqrJVmo7p0LO')
-            .collection('selections')
-            .add(selectedNames)
-            .then(doc => {
-              
-                props.getRnadomNamesFromDB();
-
-            })
+        props.setSerieses([getRandomNames(props.names, 6), ...props.serieses])
+        
+        
 	}
 
 	return (
